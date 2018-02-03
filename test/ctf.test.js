@@ -1,7 +1,8 @@
 const assert = require('assert');
 const ganache = require('ganache-cli');
 const Web3 = require('Web3');
-const webtre = new Web3(ganache.provider());
+const provider = ganache.provider();
+const webtre = new Web3(provider);
 const { interface, bytecode } = require('../compile');
 
 let accounts;
@@ -13,11 +14,17 @@ beforeEach(async() => {
     player = await new webtre.eth.Contract(JSON.parse(interface))
         .deploy({ data: bytecode, arguments: ['Wale', 100, "red", 1] })
         .send({ from: accounts[0], gas: '1000000' })
+
+    player.setProvider(provider);
 });
 
-describe('CTF', () => {
+describe('player', () => {
     it('deploys a contract', () => {
-        console.log(accounts)
-        console.log(player);
+        assert.ok(player.options.address);
     });
+
+    it('the points can be increased', async() => {
+        const points = await player.methods.addPoints(100).call();
+        assert.equal(points, 200)
+    })
 });

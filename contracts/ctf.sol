@@ -15,16 +15,10 @@ contract Player {
 
     }
 
-}
-
-contract CryptoFlags {
-    int public plc = 0;
-    mapping(int => Player) players;
-
-    function newPlayer(string _name, int _points, string _team) public returns (address player) {
-        players[plc] = new Player(_name, _points, _team, plc);
-        plc += 1;
-        return players[plc - 1];
+    function addPoints(int increase) public returns (int newPoints) {
+        points += increase;
+        return points;
     }
 
 }
+
