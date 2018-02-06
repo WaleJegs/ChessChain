@@ -57,11 +57,14 @@ contract ChessChain {
 
     // true or false is entered into winner and losers struct at the end of each game
     // rating change based on elo scheme calculated off the blockchain to save gas
-    function endGame(address winner, address loser, uint rd1, uint rd2) public {
-        playersInfo[winner].outcomes.push(true);
-        playersInfo[loser].outcomes.push(false);
-        playersInfo[winner].rank += rd1;
-        playersInfo[loser].rank -= rd2;
+      function endGame(address winner, address loser, uint rd1, uint rd2) public returns (uint) {
+        var won = playersInfo[winner];
+        var lost = playersInfo[loser];
+        won.outcomes.push(true);
+        lost.outcomes.push(false);
+        won.rank += rd1;
+        lost.rank -= rd2;
+        return won.rank;
     }
 
 }
