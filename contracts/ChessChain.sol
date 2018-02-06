@@ -11,6 +11,8 @@ contract ChessChain {
         uint losses;
         uint rank;
         string username;
+        address[] games;
+        bool[] outcomes;
     }
 
     mapping(address => Player) playersInfo;
@@ -29,22 +31,37 @@ contract ChessChain {
         player.wins = 0;
         player.losses = 0;
         if (msg.value > .25 ether) {
-            player.rank = 500;
+            player.rank = 1500;
         }
         else if (msg.value > .2 ether){
-            player.rank = 400;
+            player.rank = 1400;
         }
         else if (msg.value > .15 ether){
-            player.rank = 300;
+            player.rank = 1300;
         }
         else if (msg.value > .1 ether){
-            player.rank = 200;
+            player.rank = 1200;
         } else {
-            player.rank = 100;
+            player.rank = 1100;
         }
         players.push(msg.sender);
         playersCount += 1;
         return player.rank;
+    }
+
+    // places opponents address in each players struct to keep track of games
+    function newGame(address opponent) public {
+        playersInfo[msg.sender].games.push(opponent);
+        playersInfo[opponent].games.push(msg.sender);
+    }
+
+    // true or false is entered into winner and losers struct at the end of each game
+    // rating change based on elo scheme calculated off the blockchain to save gas
+    function endGame(address winner, address loser, uint rd1, uint rd2) public {
+        playersInfo[winner].outcomes.push(true);
+        playersInfo[loser].outcomes.push(false);
+        playersInfo[winner].rank += rd1;
+        playersInfo[loser].rank -= rd2;
     }
 
 }
