@@ -5,7 +5,17 @@ contract ChessChain {
     address[] public players;
     uint playersCount = 0;
 
-     // one account to control the dissemination of funds to winners
+    struct Player {
+        uint id;
+        uint wins;
+        uint losses;
+        uint rank;
+        string username;
+    }
+
+    mapping(address => Player) playersInfo;
+
+    // one account to control the dissemination of funds to winners
     function ChessChain() public {
         master = msg.sender;
     }
