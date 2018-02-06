@@ -55,9 +55,15 @@ contract ChessChain {
         playersInfo[opponent].games.push(msg.sender);
     }
 
+    // only the master of the chesschain can peform function with this modifier
+    modifier masterful() {
+        require(msg.sender == master);
+        _;
+    }
+
     // true or false is entered into winner and losers struct at the end of each game
     // rating change based on elo scheme calculated off the blockchain to save gas
-      function endGame(address winner, address loser, uint rd1, uint rd2) public returns (uint) {
+      function endGame(address winner, address loser, uint rd1, uint rd2) public masterful returns (uint) {
         var won = playersInfo[winner];
         var lost = playersInfo[loser];
         won.outcomes.push(true);
@@ -66,5 +72,7 @@ contract ChessChain {
         lost.rank -= rd2;
         return won.rank;
     }
+
+
 
 }
