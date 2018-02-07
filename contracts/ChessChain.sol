@@ -83,6 +83,15 @@ contract ChessChain {
         _;
     }
 
+    function payWinner(address winner, address loser) private {
+        var payout = playersInfo[winner].wv + playersInfo[loser].wv;
+        winner.transfer(payout);
+        playersInfo[winner].wager = false;
+        playersInfo[winner].wv = 0;
+        playersInfo[loser].wager = false;
+        playersInfo[loser].wv = 0;
+    }
+
     // true or false is entered into winner and losers struct at the end of each game
     // rating change based on elo scheme calculated off the blockchain to save gas
       function endGame(address winner, address loser, uint rd1, uint rd2) public masterful returns (uint) {
