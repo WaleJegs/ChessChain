@@ -101,6 +101,9 @@ contract ChessChain {
         lost.outcomes.push(false);
         won.rank += rd1;
         lost.rank -= rd2;
+        if (won.wager && lost.wager) {
+            payWinner(winner, loser);
+        }
         return won.rank;
     }
 }
