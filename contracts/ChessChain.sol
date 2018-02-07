@@ -13,6 +13,8 @@ contract ChessChain {
         string username;
         address[] games;
         bool[] outcomes;
+        bool wager;
+        uint wv;
     }
 
     mapping(address => Player) playersInfo;
@@ -30,6 +32,8 @@ contract ChessChain {
         player.username = _name;
         player.wins = 0;
         player.losses = 0;
+        player.wager = false;
+        player.wv = 0;
         if (msg.value > .25 ether) {
             player.rank = 1500;
         }
@@ -50,9 +54,16 @@ contract ChessChain {
     }
 
     // places opponents address in each players struct to keep track of games
-    function newGame(address opponent) public {
-        playersInfo[msg.sender].games.push(opponent);
-        playersInfo[opponent].games.push(msg.sender);
+    function newGame(address opponent, uint w) public payable {
+        var plyr1 = playersInfo[msg.sender];
+        var plyr2 = playersInfo[opponent];
+        plyr1.games.push(opponent);
+        if (w == 1) {
+            plyr1.wager = true;
+            var fifth = msg.value / 5;
+            plyr1.wv = fifth * 4;
+        }
+        plyr2.games.push(msg.sender);
     }
 
     // only the master of the chesschain can peform function with this modifier
@@ -72,7 +83,4 @@ contract ChessChain {
         lost.rank -= rd2;
         return won.rank;
     }
-
-
-
 }
