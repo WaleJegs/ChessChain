@@ -66,6 +66,17 @@ contract ChessChain {
         plyr2.games.push(msg.sender);
     }
 
+      //wager confirmation
+    function confirmWager(address opponent) public payable {
+        var opp = playersInfo[opponent];
+        var fifth = msg.value / 5;
+        var wager = fifth * 4;
+        require(opp.wager == true);
+        require(wager >= opp.wv);
+        playersInfo[msg.sender].wv = wager;
+        playersInfo[msg.sender].wager = true;
+    }
+
     // only the master of the chesschain can peform function with this modifier
     modifier masterful() {
         require(msg.sender == master);
