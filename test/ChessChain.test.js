@@ -63,8 +63,8 @@ describe('ChessChain', () => {
         value: web3.utils.toWei('0.2', 'ether')
         });
 
-    assert.equal(chesschain.playersInfo[accounts[1]].wv, true);
-    assert.equal(chesschain.playersInfo[accounts[0]].wv, true);
+    assert.equal(chesschain.playersInfo[accounts[1]].wager, true);
+    assert.equal(chesschain.playersInfo[accounts[0]].wager, true);
   });
 
 });
