@@ -38,4 +38,33 @@ describe('ChessChain', () => {
   assert.equal(player2, 1300);
   });
 
+  it('players can start a game and wager successfully', async() => {
+    const player1 = await chesschain.methods.newPlayer("A")
+            .send({
+                from: accounts[1],
+                value: web3.utils.toWei('0.2', 'ether')
+            });
+
+    const player2 = await chesschain.methods.newPlayer("B")
+            .send({
+                from: accounts[1],
+                value: web3.utils.toWei('0.2', 'ether')
+            });
+
+    await chesschain.methods.newGame(accounts[0], 1)
+        .send({
+        from: accounts[1],
+        value: web3.utils.toWei('0.2', 'ether')
+        });
+
+    await chesschain.methods.confirmWager(accounts[1])
+        .send({
+        from: accounts[0],
+        value: web3.utils.toWei('0.2', 'ether')
+        });
+
+    chesschain.playersInfo[accounts[1]].wv = true;
+    chesschain.playersInfo[accounts[0]].wv = true;
+  });
+
 });
