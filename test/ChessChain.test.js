@@ -9,8 +9,6 @@ let accounts;
 let ChessChain;
 let player1;
 let player2;
-let player3;
-let player4;
 
 beforeEach(async() => {
   // get list of all accounts and use one to deploy the contract
@@ -50,7 +48,7 @@ describe('ChessChain', () => {
     assert.equal(playerTwoRank, 1300);
   });
 
-  it('players can start a game and wager successfully', async() => {
+  it('players can start a game, wager and end game successfully', async() => {
 
     await chesschain.methods.newGame(accounts[2], 1)
         .send({
@@ -69,6 +67,45 @@ describe('ChessChain', () => {
     const playerTwoWager = await chesschain.methods.getPlayerInfo(accounts[2], 1).call();
     assert.equal(playerOneWager, '160000000000000000');
     assert.equal(playerTwoWager, '160000000000000000');
+
+    await chesschain.methods.endGame(accounts[1], accounts[2], 50, 50)
+        .send({
+            from: accounts[0],
+            gas: '1000000'
+        })
+
+    const playerOneEndWager = await chesschain.methods.getPlayerInfo(accounts[1], 1).call()
+    const playerTwoEndWager = await chesschain.methods.getPlayerInfo(accounts[2], 1).call()
+    assert.equal(playerOneEndWager, '0');
+    assert.equal(playerTwoEndWager, '0');
+
+  });
+
+  it('player cannot confirm a wager unless opponent has wagered beforehand', async() => {
+    try {
+      await chesschain.methods.confirmWager(accounts[1])
+        .send({
+        from: accounts[2],
+        value: webtre.utils.toWei('0.2', 'ether'),
+        gas: '1000000'
+        });
+      assert(false);
+    } catch (err) {
+      assert(err);
+    }
+
+  })
+
+  it ('only the master can end games', async() => {
+     try {
+        await chesschain.methods.endGame(accounts[1], accounts[2], 100, 50)
+          .send({
+            from : accounts[3]
+          });
+          assert(false);
+     } catch (err) {
+          assert(err);
+     }
   });
 
 });
