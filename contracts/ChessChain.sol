@@ -83,6 +83,14 @@ contract ChessChain {
         _;
     }
 
+    function getPlayerInfo(address player, uint8 prop) public view returns(uint) {
+        if (prop == 0) {
+            return playersInfo[player].rank;
+        } else if (prop == 1) {
+            return playersInfo[player].wv;
+        }
+    }
+
     function payWinner(address winner, address loser) private {
         var payout = playersInfo[winner].wv + playersInfo[loser].wv;
         winner.transfer(payout);
