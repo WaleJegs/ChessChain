@@ -8,23 +8,34 @@ const { interface, bytecode } = require('../compile');
 let accounts;
 let ChessChain;
 beforeEach(async() => {
-    // get list of all accounts and use one to deploy the contract
-    accounts = await webtre.eth.getAccounts();
+  // get list of all accounts and use one to deploy the contract
+  accounts = await webtre.eth.getAccounts();
 
-    chesschain = await new webtre.eth.Contract(JSON.parse(interface))
-        .deploy({ data: bytecode, arguments: [] })
-        .send({ from: accounts[0], gas: '1000000' })
+  chesschain = await new webtre.eth.Contract(JSON.parse(interface))
+  .deploy({ data: bytecode, arguments: [] })
+  .send({ from: accounts[0], gas: '1000000' })
 
-    chesschain.setProvider(provider);
+  chesschain.setProvider(provider);
 });
 
 describe('ChessChain', () => {
-    it('deploys a contract', () => {
-        assert.ok(chesschain.options.address);
-    });
+  it('deploys a contract', () => {
+  assert.ok(chesschain.options.address);
+  });
 
-    it('a player can be created', async() => {
-        const player = await chesschain.methods.newPlayer("beginner").call();
-        assert.equal(player, 1100)
-    })
+  it('players can be created with proper ranks', async() => {
+  const player1 = await chesschain.methods.newPlayer("A")
+      .send({
+        from: accounts[1],
+        value: web3.utils.toWei('0.26', 'ether')
+      });
+  const player2 = await chesschain.methods.newPlayer("B")
+        .send({
+            from: accounts[0],
+            value: web3.utils.toWei('0.16', 'ether')
+        });
+  assert.equal(player1, 1500);
+  assert.equal(player2, 1300);
+  });
+
 });
