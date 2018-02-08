@@ -12,7 +12,7 @@ beforeEach(async() => {
   accounts = await webtre.eth.getAccounts();
 
   chesschain = await new webtre.eth.Contract(JSON.parse(interface))
-  .deploy({ data: bytecode, arguments: [] })
+  .deploy({ data: bytecode})
   .send({ from: accounts[0], gas: '1000000' })
 
   chesschain.setProvider(provider);
