@@ -1,23 +1,26 @@
 {
-  "name": "inbox",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "ganache-cli": "^6.0.3",
-    "history": "^4.7.2",
-    "mocha": "^5.0.0",
-    "react": "^16.2.0",
-    "react-redux": "^5.0.6",
-    "react-router-dom": "^4.2.2",
-    "redux": "^3.7.2",
-    "solc": "^0.4.19",
-    "truffle-hdwallet-provider": "0.0.3",
-    "web3": "^1.0.0-beta.26"
-  }
+    "name": "inbox",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "webpack -w & nodemon server --ignore /client --ignore /public",
+        "start-server": "nodemon server",
+        "build-client": "webpack"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "ganache-cli": "^6.0.3",
+        "history": "^4.7.2",
+        "mocha": "^5.0.0",
+        "react": "^16.2.0",
+        "react-redux": "^5.0.6",
+        "react-router-dom": "^4.2.2",
+        "redux": "^3.7.2",
+        "solc": "^0.4.19",
+        "truffle-hdwallet-provider": "0.0.3",
+        "web3": "^1.0.0-beta.26",
+        "webpack": "^3.10.0"
+    }
 }
