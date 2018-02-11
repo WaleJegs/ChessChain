@@ -18,5 +18,7 @@ export default (state = player, action) => {
     switch (action.type) {
         case GET_PLYR_INFO:
             return Object.assign({}, state, { info: action.info })
+        default:
+            return state
     }
 }

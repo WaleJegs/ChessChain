@@ -14,3 +14,9 @@ const Main = (props) => {
     </div>
   )
 }
+
+Main.propTypes = {
+  children: PropTypes.object
+}
+
+export default Main;
