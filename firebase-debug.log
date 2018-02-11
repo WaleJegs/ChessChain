@@ -1,0 +1,39 @@
+[debug] [2018-02-11T01:37:37.501Z] ----------------------------------------------------------------------
+[debug] [2018-02-11T01:37:37.503Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2018-02-11T01:37:37.503Z] CLI Version:   3.17.4
+[debug] [2018-02-11T01:37:37.503Z] Platform:      darwin
+[debug] [2018-02-11T01:37:37.503Z] Node Version:  v8.0.0
+[debug] [2018-02-11T01:37:37.504Z] Time:          Sat Feb 10 2018 17:37:37 GMT-0800 (PST)
+[debug] [2018-02-11T01:37:37.504Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-02-11T01:37:37.515Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-02-11T01:37:37.516Z] > authorizing via signed-in user
+[debug] [2018-02-11T01:37:37.518Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/chesschain  
+  
+ Sat Feb 10 2018 17:37:37 GMT-0800 (PST)
+[debug] [2018-02-11T01:37:37.862Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-11T01:37:37.863Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/chesschain/tokens  
+  
+ Sat Feb 10 2018 17:37:37 GMT-0800 (PST)
+[debug] [2018-02-11T01:37:38.133Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/walejegede/ChessChain'...
+[info] 
+[debug] [2018-02-11T01:37:38.136Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/chesschain  
+  
+ Sat Feb 10 2018 17:37:38 GMT-0800 (PST)
+[debug] [2018-02-11T01:37:38.603Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-11T01:37:38.604Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/1098495793863/clients/_:getWebAppConfig  
+  
+ Sat Feb 10 2018 17:37:38 GMT-0800 (PST)
+[debug] [2018-02-11T01:37:39.140Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-11T01:37:39.169Z] TypeError: Cannot read property 'public' of undefined
+    at Server.<anonymous> (/usr/local/lib/node_modules/firebase-tools/lib/serve/hosting.js:34:17)
+    at Object.onceWrapper (events.js:312:19)
+    at emitNone (events.js:105:13)
+    at Server.emit (events.js:207:7)
+    at emitListeningNT (net.js:1332:10)
+    at _combinedTickCallback (internal/process/next_tick.js:99:11)
+    at process._tickDomainCallback (internal/process/next_tick.js:198:9)
+[error] 
+[error] Error: An unexpected error has occurred.
