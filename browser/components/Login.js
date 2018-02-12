@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Signup } from './index';
 import PropTypes from 'prop-types';
 import { signInThunk } from '../store/index';
+import history from '../history';
+
 
 /**
  * COMPONENT
@@ -40,6 +42,7 @@ const Login = (props) => {
       const email = evt.target.email.value;
       const password = evt.target.password.value;
       dispatch(signInThunk(email, password));
+      history.push('/Welcome')
     },
   });
 

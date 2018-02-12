@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { signUpThunk } from '../store/index';
+import history from '../history';
 
 /**
  * COMPONENT
@@ -52,6 +53,7 @@ const Signup = (props) => {
       const username = evt.target.username.value;
       const ether = evt.target.ether.value;
       dispatch(signUpThunk(email, password, username, ether));
+      history.push('/Welcome');
     },
   });
 

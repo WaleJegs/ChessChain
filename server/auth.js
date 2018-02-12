@@ -7,12 +7,13 @@ router.post('/signup', (req, res, next) => {
     firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password)
         .then((user) => {
             console.log(req.body)
-            firebase.database().ref('users/' + user.V.R).set({
+            let plyr = {
                 username: req.body.username,
                 email: req.body.email,
                 initialEther: req.body.ether
-            })
-            res.sendStatus(201)
+            }
+            firebase.database().ref('users/' + user.V.R).set(plyr)
+            res.json(plyr)
         })
         .catch((error) => {
             console.log('error', error.code, 'msg', error.message)
@@ -22,8 +23,10 @@ router.post('/signup', (req, res, next) => {
 router.post('/login', (req, res, next) => {
     firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password)
         .then((user) => {
-            console.log(user)
-            res.status(201).send(`${user.name} signed in!`);
+            firebase.database().ref(`/users/${user.V.R}`).once('value')
+                .then(snapshot => {
+                    res.json(snapshot)
+                })
         })
         .catch((error) => {
             console.log('error', error.code, 'msg', error.message)

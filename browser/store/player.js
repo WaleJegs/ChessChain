@@ -2,9 +2,9 @@ import axios from 'axios';
 
 const GET_PLYR_INFO = 'GET_PLYR_INFO';
 
-const player = {};
+const initialPlayer = {};
 
-const getPlayer = info => ({ type: GET_PLYR_INFO, info });
+const getPlayer = player => ({ type: GET_PLYR_INFO, player });
 
 export const signInThunk = (email, password) =>
     dispatch =>
@@ -22,10 +22,10 @@ export const signUpThunk = (email, password, username, ether) =>
     })
     .catch(err => console.log(err));
 
-export default (state = player, action) => {
+export default (state = initialPlayer, action) => {
     switch (action.type) {
         case GET_PLYR_INFO:
-            return Object.assign({}, state, { info: action.info })
+            return Object.assign({}, state, action.player)
         default:
             return state
     }
