@@ -14,9 +14,9 @@ export const signInThunk = (email, password) =>
     })
     .catch(err => console.log(err))
 
-export const signUpThunk = (email, password, username) =>
+export const signUpThunk = (email, password, username, ether) =>
     dispatch =>
-    axios.post('/auth/signup', { email, password, username })
+    axios.post('/auth/signup', { email, password, username, ether })
     .then(res => {
         return dispatch(getPlayer(res.data))
     })

@@ -26465,39 +26465,69 @@ var Signup = function Signup(props) {
       'form',
       { onSubmit: handleSubmit, name: name },
       _react2.default.createElement(
-        'label',
-        { htmlFor: 'email' },
+        'div',
+        null,
         _react2.default.createElement(
-          'small',
-          null,
-          'Email'
-        )
+          'label',
+          { htmlFor: 'email' },
+          _react2.default.createElement(
+            'small',
+            null,
+            'Email'
+          )
+        ),
+        _react2.default.createElement('input', { className: 'form-control', name: 'email', type: 'text' })
       ),
-      _react2.default.createElement('input', { className: 'form-control', name: 'email', type: 'text' }),
       _react2.default.createElement(
-        'label',
-        { htmlFor: 'username' },
+        'div',
+        null,
         _react2.default.createElement(
-          'small',
-          null,
-          'Username'
-        )
+          'label',
+          { htmlFor: 'username' },
+          _react2.default.createElement(
+            'small',
+            null,
+            'Username'
+          )
+        ),
+        _react2.default.createElement('input', { className: 'form-control', name: 'username', type: 'text' })
       ),
-      _react2.default.createElement('input', { className: 'form-control', name: 'username', type: 'text' }),
       _react2.default.createElement(
-        'label',
-        { htmlFor: 'password' },
+        'div',
+        null,
         _react2.default.createElement(
-          'small',
-          null,
-          'Password'
-        )
+          'label',
+          { htmlFor: 'password' },
+          _react2.default.createElement(
+            'small',
+            null,
+            'Password'
+          )
+        ),
+        _react2.default.createElement('input', { className: 'form-control', name: 'password', type: 'password' })
       ),
-      _react2.default.createElement('input', { className: 'form-control', name: 'password', type: 'password' }),
       _react2.default.createElement(
-        'button',
-        { type: 'submit' },
-        'Log in'
+        'div',
+        null,
+        _react2.default.createElement(
+          'label',
+          { htmlFor: 'ether' },
+          _react2.default.createElement(
+            'small',
+            null,
+            'Amount of Ether'
+          )
+        ),
+        _react2.default.createElement('input', { className: 'form-control', name: 'ether', type: 'number', step: '0.01' })
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'button',
+          { type: 'submit' },
+          'Sign Up'
+        )
       ),
       error && error.response && _react2.default.createElement(
         'div',
@@ -26509,14 +26539,6 @@ var Signup = function Signup(props) {
     )
   );
 };
-
-/**
- * CONTAINER
- *   Note that we have two different sets of 'mapStateToProps' functions -
- *   one for Login, and one for Signup. However, they share the same 'mapDispatchToProps'
- *   function, and share the same Component. This is a good example of how we
- *   can stay DRY with interfaces that are very similar to each other!
- */
 
 var mapSignup = function mapSignup(state) {
   return {
@@ -26533,7 +26555,8 @@ var mapSignInDispatch = function mapSignInDispatch(dispatch) {
       var email = evt.target.email.value;
       var password = evt.target.password.value;
       var username = evt.target.username.value;
-      dispatch((0, _index.signUpThunk)(email, password, username));
+      var ether = evt.target.ether.value;
+      dispatch((0, _index.signUpThunk)(email, password, username, ether));
     }
   };
 };
@@ -26582,9 +26605,9 @@ var signInThunk = exports.signInThunk = function signInThunk(email, password) {
     };
 };
 
-var signUpThunk = exports.signUpThunk = function signUpThunk(email, password, username) {
+var signUpThunk = exports.signUpThunk = function signUpThunk(email, password, username, ether) {
     return function (dispatch) {
-        return _axios2.default.post('/auth/signup', { email: email, password: password, username: username }).then(function (res) {
+        return _axios2.default.post('/auth/signup', { email: email, password: password, username: username, ether: ether }).then(function (res) {
             return dispatch(getPlayer(res.data));
         }).catch(function (err) {
             return console.log(err);

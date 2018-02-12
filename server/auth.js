@@ -6,9 +6,11 @@ router.post('/signup', (req, res, next) => {
 
     firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password)
         .then((user) => {
+            console.log(req.body)
             firebase.database().ref('users/' + user.V.R).set({
                 username: req.body.username,
-                email: req.body.email
+                email: req.body.email,
+                initialEther: req.body.ether
             })
             res.sendStatus(201)
         })
