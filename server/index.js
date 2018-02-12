@@ -2,19 +2,26 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
-const { resolve } = require('path')
+const path = require('path')
 
 const app = express()
 
-module.exports = app
-  .use(bodyParser.urlencoded({ extended: true }))
-  .use(bodyParser.json())
-  .use(require('morgan'))
-  .use(express.static(resolve(__dirname, '..', 'public'))) // Serve static files from ../public
-  // .use('/api', require('./api')) // Serve our api
-  .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-if (module === require.main) {
+app.use(express.static(path.join(__dirname, '/public')))
+
+// app.use('/api', require('./server/api'));
+
+app.get('*', function (req, res, next) {
+  res.sendFile(path.join(__dirname,  '/public/index.html'));
+});
+
+app.use(function (err, req, res, next) {
+  console.error(err);
+  console.error(err.stack);
+  res.status(err.status || 500).send(err.message || 'Internal server error.');
+});
+
   const PORT = 1993
   app.listen(PORT, () => console.log(`server listening on port ${PORT}`))
-}

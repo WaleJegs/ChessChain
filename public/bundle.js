@@ -26460,6 +26460,8 @@ exports.default = function () {
     switch (action.type) {
         case GET_PLYR_INFO:
             return Object.assign({}, state, { info: action.info });
+        default:
+            return state;
     }
 };
 
