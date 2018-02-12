@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Signup } from './index';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
@@ -13,7 +14,7 @@ export default class Home extends Component {
 
   render(){
     return (
-      <div> "Test" </div>
+      <Signup />
     )
   }
 }

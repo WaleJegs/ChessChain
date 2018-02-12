@@ -13,7 +13,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, '/public')))
 
-// app.use('/api', require('./server/api'));
+app.use('/api', require('./api'));
+app.use('/auth', require('./auth'));
 
 app.get('*', function(req, res, next) {
     res.sendFile(path.join(__dirname, '/public/index.html'));

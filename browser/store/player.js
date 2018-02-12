@@ -6,13 +6,21 @@ const player = {};
 
 const getPlayer = info => ({ type: GET_PLYR_INFO, info });
 
-export const getPlayerThunk = () =>
+export const signInThunk = (email, password) =>
     dispatch =>
-    axios.get('/')
+    axios.post('/auth/login', { email, password })
     .then(res => {
         return dispatch(getPlayer(res.data));
     })
     .catch(err => console.log(err))
+
+export const signUpThunk = (email, password, username) =>
+    dispatch =>
+    axios.post('/auth/signup', { email, password, username })
+    .then(res => {
+        return dispatch(getPlayer(res.data))
+    })
+    .catch(err => console.log(err));
 
 export default (state = player, action) => {
     switch (action.type) {

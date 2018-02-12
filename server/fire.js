@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+const firebase = require('firebase');
 const config = {
   apiKey: 'AIzaSyDQttoQWqyUPaC5VQmMV2mwniszVzDSdo0',
   authDomain: 'chesschain.firebaseapp.com',
@@ -9,4 +9,4 @@ const config = {
 };
 
 const fire = firebase.initializeApp(config);
-export default fire;
+module.exports = fire;
