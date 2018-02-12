@@ -1,64 +1,52 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Signup } from './index';
 import PropTypes from 'prop-types';
-import { signUpThunk } from '../store/index';
+import { signInThunk } from '../store/index';
 
 /**
  * COMPONENT
  */
-const Signup = (props) => {
+const Login = (props) => {
   const { name, handleSubmit, error } = props;
 
   return (
   <div>
-  <h1> Sign Up </h1>
+  <h3> Sign In </h3>
     <form onSubmit={handleSubmit} name={name}>
-    <div>
       <label htmlFor="email"><small>Email</small></label>
       <input className="form-control" name="email" type="text" />
-    </div>
-    <div>
-      <label htmlFor="username"><small>Username</small></label>
-      <input className="form-control" name="username" type="text" />
-    </div>
-    <div>
       <label htmlFor="password"><small>Password</small></label>
       <input className="form-control" name="password" type="password" />
-    </div>
-    <div>
-      <label htmlFor="ether"><small>Amount of Ether</small></label>
-      <input className="form-control" name="ether" type="number" step="0.01" />
-    </div>
-    <div>
-      <button type="submit">Sign Up</button>
-    </div>
+      <button type="submit">Login</button>
     {error && error.response && <div> {error.response.data} </div>}
     </form>
+    <div>
+      <Signup />
+    </div>
   </div>
   );
 };
 
-  const mapSignup = state => ({
-    name: 'signup',
-    displayName: 'Sign Up',
+  const mapLogin = state => ({
+    name: 'login',
+    displayName: 'Login',
     error: state.player.error,
   });
 
-  const mapSignUpDispatch = dispatch => ({
+  const mapLoginDispatch = dispatch => ({
     handleSubmit(evt) {
       evt.preventDefault();
       const email = evt.target.email.value;
       const password = evt.target.password.value;
-      const username = evt.target.username.value;
-      const ether = evt.target.ether.value;
-      dispatch(signUpThunk(email, password, username, ether));
+      dispatch(signInThunk(email, password));
     },
   });
 
-  Signup.propTypes = {
+  Login.propTypes = {
     name: PropTypes.string.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     error: PropTypes.object,
   };
 
-  export default connect(mapSignup, mapSignUpDispatch)(Signup);
+  export default connect(mapLogin, mapLoginDispatch)(Login);

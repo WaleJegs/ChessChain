@@ -22,6 +22,7 @@ router.post('/signup', (req, res, next) => {
 router.post('/login', (req, res, next) => {
     firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password)
         .then((user) => {
+            console.log(user)
             res.status(201).send(`${user.name} signed in!`);
         })
         .catch((error) => {
