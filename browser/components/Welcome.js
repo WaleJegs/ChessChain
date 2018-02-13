@@ -1,12 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const Welcome = () => {
-
+const Welcome = (props) => {
+  console.log(props)
   return (
     <div>
-      Welcome User
+      { `Welcome ${props.state.username}!` }
     </div>
   )};
 
+const mapStateToProps = (state) => {
+  return {
+    state: state.player
+  }
+}
 
-export default Welcome;
+export default connect(mapStateToProps)(Welcome)

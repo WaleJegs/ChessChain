@@ -4,7 +4,7 @@ const GET_PLYR_INFO = 'GET_PLYR_INFO';
 
 const initialPlayer = {};
 
-const getPlayer = player => ({ type: GET_PLYR_INFO, player });
+export const getPlayer = player => ({ type: GET_PLYR_INFO, player });
 
 export const signInThunk = (email, password) =>
     dispatch =>
