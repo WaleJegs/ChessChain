@@ -27,8 +27,8 @@ const Signup = (props) => {
       <input className="form-control" name="password" type="password" />
     </div>
     <div>
-      <label htmlFor="ether"><small>Amount of Ether</small></label>
-      <input className="form-control" name="ether" type="number" step="0.01" />
+      <label htmlFor="address"><small>Address</small></label>
+      <input className="form-control" name="address" value={window.web3.eth.accounts[0]} type="text" step="0.01" readOnly />
     </div>
     <div>
       <button type="submit">Sign Up</button>
@@ -51,8 +51,8 @@ const Signup = (props) => {
       const email = evt.target.email.value;
       const password = evt.target.password.value;
       const username = evt.target.username.value;
-      const ether = evt.target.ether.value;
-      dispatch(signUpThunk(email, password, username, ether));
+      const address = evt.target.address.value;
+      dispatch(signUpThunk(email, password, username, address));
       history.push('/Welcome');
     },
   });

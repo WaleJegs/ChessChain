@@ -14,7 +14,9 @@ export default class Home extends Component {
 
   render(){
     return (
-      <Login />
+      <div>
+        { window.web3 ? <Login /> : <div> Please Download MetaMask </div> }
+      </div>
     )
   }
 }

@@ -8,6 +8,7 @@ const Main = (props) => {
   return (
     <div>
       <nav>
+        <h1> ChessChain </h1>
         <div><Link to="/">Home</Link></div>
       </nav>
       { children }

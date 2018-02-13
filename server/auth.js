@@ -10,7 +10,7 @@ router.post('/signup', (req, res, next) => {
             let plyr = {
                 username: req.body.username,
                 email: req.body.email,
-                initialEther: req.body.ether
+                address: req.body.address
             }
             firebase.database().ref('users/' + user.V.R).set(plyr)
             res.json(plyr)
