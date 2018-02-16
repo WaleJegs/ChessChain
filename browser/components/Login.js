@@ -23,9 +23,6 @@ const Login = (props) => {
       <button type="submit">Login</button>
     {error && error.response && <div> {error.response.data} </div>}
     </form>
-    <div>
-      <Signup />
-    </div>
   </div>
   );
 };

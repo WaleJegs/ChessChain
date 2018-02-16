@@ -1,5 +1,5 @@
-export {default as Main} from './main';
-export {default as Home} from './home';
-export {default as Signup} from './signup';
-export {default as Login} from './login';
-export {default as Welcome} from './welcome';
+export {default as Main} from './Main';
+export {default as Home} from './Home';
+export {default as Signup} from './Signup';
+export {default as Login} from './Login';
+export {default as Welcome} from './Welcome';

@@ -5,7 +5,7 @@ const Welcome = (props) => {
   console.log(props)
   return (
     <div>
-      { `Welcome ${props.state.username}!` }
+      { props.state.username && `Welcome ${props.state.username}!` }
     </div>
   )};
 
