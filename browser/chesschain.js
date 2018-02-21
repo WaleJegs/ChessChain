@@ -1,6 +1,6 @@
 import web3 from './web3';
 
-const address = 0x1b79435d096f5f0bcb919958adf633a0b1ef9e52;
+const address = '0x1b79435d096f5f0bcb919958adf633a0b1ef9e52';
 const abi = [{
         constant: false,
         inputs: [{ name: 'opponent', type: 'address' }],
