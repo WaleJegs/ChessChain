@@ -58,15 +58,13 @@ class App extends Component {
   onSignIn = async (event) => {
     event.preventDefault();
 
-    let user = await firebase.auth().signInWithEmailAndPassword(this.state.loginEmail, this.state.loginPassword);
-
-    if (user){
+    try {
+      let user = await firebase.auth().signInWithEmailAndPassword(this.state.loginEmail, this.state.loginPassword);
       let info = await firebase.database().ref(`/users/${user.V.R}`).once('value')
-      this.setState({message: `Welcome ${info.child('username').node_.value_}!`});
-    } else {
-      this.setState({message: 'Wrong email/password combination. Try again'})
+      this.setState({message: `Welcome ${info.child('username').node_.value_}!`})
+    } catch(e){
+      this.setState({message: e.message})
     }
-
   }
 
   render() {
