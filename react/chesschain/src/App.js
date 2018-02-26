@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import web3 from './web3';
 import chesschain from './chesschain';
-import axios from 'axios';
 import firebase from './fire';
 
 class App extends Component {
@@ -17,21 +15,22 @@ class App extends Component {
     email: '',
     password: '',
     address: '',
-    player: ''
+    player: '',
+    loginEmail: '',
+    loginPassword: ''
   }
 
   async componentDidMount(){
-    const master = await chesschain.methods.master().call();
-    const balance = await web3.eth.getBalance(chesschain.options.address)
-    const player = await chesschain.methods.getPlayerInfo(master, 0).call();
+    // const master = await chesschain.methods.master().call();
+    // const balance = await web3.eth.getBalance(chesschain.options.address)
+    // const player = await chesschain.methods.getPlayerInfo(master, 0).call();
     const accounts = await web3.eth.getAccounts();
 
-    this.setState({ master, balance, player, address: accounts[0] })
+    this.setState({ address: accounts[0] })
   }
 
   onSubmit = async (event) => {
     event.preventDefault();
-    const accounts = await web3.eth.getAccounts();
 
     this.setState({message: 'Waiting on transaction success...'});
 
@@ -49,26 +48,54 @@ class App extends Component {
     }
 
     await chesschain.methods.newPlayer(this.state.username).send({
-      from: accounts[0],
+      from: this.state.address,
       value: web3.utils.toWei(this.state.value, 'ether')
     });
 
     this.setState({message: 'Welcome to ChessChain!'})
   }
 
+  onSignIn = async (event) => {
+    event.preventDefault();
+
+    let user = await firebase.auth().signInWithEmailAndPassword(this.state.loginEmail, this.state.loginPassword);
+
+    if (user){
+      let info = await firebase.database().ref(`/users/${user.V.R}`).once('value')
+      this.setState({message: `Welcome ${info.child('username').node_.value_}!`});
+    } else {
+      this.setState({message: 'Wrong email/password combination. Try again'})
+    }
+
+  }
+
   render() {
-    console.log(this.state.address)
     return (
       <div>
-        <h1> ChessChain </h1>
-        <p> Master: {this.state.master}</p>
-        <p> Balance: {this.state.balance}</p>
-        <p> Rank: {this.state.player} </p>
-
+      <h1> ChessChain</h1>
+        <form onSubmit={this.onSignIn}>
+          <h3> Login </h3>
+          <div>
+            <label> Email </label>
+            <input
+              value={this.state.loginEmail}
+              onChange={event => this.setState({ loginEmail: event.target.value })}
+            />
+          </div>
+          <div>
+            <label> Password </label>
+            <input
+              value={this.state.loginPassword}
+              type='password'
+              onChange={event => this.setState({ loginPassword: event.target.value })}
+            />
+          </div>
+          <button> Log In </button>
+        </form>
         <hr />
 
         <form onSubmit={this.onSubmit}>
-          <h3> ChessChain SignUp </h3>
+          <h3> SignUp </h3>
           <div>
             <label> Amount of Ether to Send </label>
             <input
@@ -98,6 +125,7 @@ class App extends Component {
             <label> Password </label>
             <input
               value={this.state.password}
+              type='password'
               onChange={event => this.setState({ password: event.target.value })}
             />
           </div>
