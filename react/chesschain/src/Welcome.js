@@ -17,9 +17,15 @@ export default class Welcome extends Component {
       .getPlayerInfo(this.props.address, 0)
       .call();
 
+    const wins = await chesschain.methods
+      .getPlayerInfo(this.props.address, 2)
+      .call();
 
+    const losses = await chesschain.methods
+      .getPlayerInfo(this.props.address, 3)
+      .call();
 
-    this.setState({ rank });
+    this.setState({ rank, wins, losses, gamesPlayed: +wins + +losses });
   }
 
   render() {
@@ -31,6 +37,9 @@ export default class Welcome extends Component {
         <h2> Dashboard </h2>
         <div>
           <h3> Rank: {this.state.rank} </h3>
+          <h3> Games Played: {this.state.gamesPlayed} </h3>
+          <h3> Wins: {this.state.wins} </h3>
+          <h3> Losses: {this.state.losses} </h3>
         </div>
       </div>
     );
