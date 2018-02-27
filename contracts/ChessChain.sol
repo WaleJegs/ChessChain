@@ -88,6 +88,10 @@ contract ChessChain {
             return playersInfo[player].rank;
         } else if (prop == 1) {
             return playersInfo[player].wv;
+        } else if (prop == 2) {
+            return playersInfo[player].wins;
+        } else if (prop == 3) {
+            return playersInfo[player].losses;
         }
     }
 
@@ -106,7 +110,9 @@ contract ChessChain {
         var won = playersInfo[winner];
         var lost = playersInfo[loser];
         won.outcomes.push(true);
+        won.wins += 1;
         lost.outcomes.push(false);
+        lost.losses += 1;
         won.rank += rd1;
         lost.rank -= rd2;
         if (won.wager && lost.wager) {
