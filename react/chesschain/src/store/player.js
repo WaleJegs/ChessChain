@@ -37,7 +37,7 @@ export const signUpThunk = (email, password, username, address, value) =>
         dispatch(setMessage('Waiting on transaction success...'));
         let user = await firebase.auth().createUserWithEmailAndPassword(email, password);
         if (user) await firebase.database().ref('users/' + user.V.R).set(player);
-
+        console.log('here')
         dispatch(setMessage('Account created...'));
         await chesschain.methods.newPlayer(username).send({
             from: accounts[0],
@@ -49,24 +49,33 @@ export const signUpThunk = (email, password, username, address, value) =>
     }
 
 
-export const loginThunk = (email, password) =>
-    async dispatch => {
-        let user = await firebase.auth().signInWithEmailAndPassword(email, password);
-        let info = await firebase.database().ref(`/users/${user.V.R}`).once('value')
-        let player = {
-            username: info.child('username').node_.value_,
-            email,
-            password,
-            address: info.child('address').node_.value_
+export const loginThunk = (email, password) => {
+    return async dispatch => {
+        try {
+            let user = await firebase.auth().signInWithEmailAndPassword(email, password);
+            let info = await firebase.database().ref(`/users/${user.V.R}`).once('value')
+            let player = {
+                username: info.child('username').node_.value_,
+                email,
+                password,
+                address: info.child('address').node_.value_,
+                value: info.child('initialValue').node_.value_
+            }
+            console.log('here')
+            dispatch(setMessage(`Welcome to ChessChain ${player.username}`));
+            return dispatch(logIn(player));
+        } catch (e) {
+            dispatch(setMessage(e.message))
         }
-        dispatch(setMessage(`Welcome to ChessChain ${player.username}`));
-        return dispatch(logIn(player));
     }
+}
 
 
 export default (state = initialPlayer, action) => {
     switch (action.type) {
         case SIGN_UP:
+            return Object.assign({}, state, action.player);
+        case LOGIN:
             return Object.assign({}, state, action.player);
         case MESSAGE:
             return Object.assign({}, state, action.message)
