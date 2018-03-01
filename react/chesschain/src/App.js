@@ -4,6 +4,7 @@ import Welcome from "./Welcome";
 import web3 from "./web3";
 import chesschain from "./chesschain";
 import firebase from "./fire";
+import rank from './rankInit';
 
 class App extends Component {
   state = {
@@ -18,7 +19,9 @@ class App extends Component {
     player: "",
     loginEmail: "",
     loginPassword: "",
-    loggedIn: false
+    loggedIn: false,
+    leaders: [],
+    id: ''
   };
 
   async componentDidMount() {
@@ -26,8 +29,20 @@ class App extends Component {
     // const balance = await web3.eth.getBalance(chesschain.options.address)
     // const player = await chesschain.methods.getPlayerInfo(master, 0).call();
     const accounts = await web3.eth.getAccounts();
+    const players = await firebase.database().ref('users').orderByChild('initialValue')
+    let leaders = []
+    players.on('child_added', snapshot => {
+      let curr = {
+        username: snapshot.child('username').val(),
+        initialValue: snapshot.child('initialValue').val(),
+        key: leaders.length
+      }
+      leaders.unshift(curr)
+    })
 
-    this.setState({ address: accounts[0] });
+    console.log("before", this.state.leaders)
+    this.setState({ address: accounts[0], leaders });
+    console.log("after", this.state.leaders)
   }
 
   onSubmit = async event => {
@@ -49,7 +64,8 @@ class App extends Component {
           email: this.state.email,
           password: this.state.password,
           address: [this.state.address],
-          initialValue: this.state.value
+          initialValue: this.state.value,
+          rank: rank(this.state.value)
         });
     }
 
@@ -58,7 +74,7 @@ class App extends Component {
       value: web3.utils.toWei(this.state.value, "ether")
     });
 
-    this.setState({ loggedIn: true });
+    this.setState({ loggedIn: true, id: user.V.R });
   };
 
   onSignIn = async event => {
@@ -77,7 +93,8 @@ class App extends Component {
         .once("value");
       this.setState({
         username: info.child("username").node_.value_,
-        loggedIn: true
+        loggedIn: true,
+        id: user.V.R
       });
     } catch (e) {
       this.setState({ message: e.message });
@@ -85,6 +102,7 @@ class App extends Component {
   };
 
   render() {
+    console.log("leaders", this.state.leaders, this.state.leaders.length)
     return (
       <div>
         {!this.state.loggedIn ? (
@@ -168,8 +186,24 @@ class App extends Component {
           <Welcome
             address={this.state.address}
             username={this.state.username}
+            id={this.state.id}
           />
         )}
+        <div>
+          <h3> Leaderboard </h3>
+          <div>
+              {
+                this.state.leaders.length && this.state.leaders.map((player) => {
+                  return (
+                    <div key={player.key}>
+                      <li>
+                        {player.username + " " + player.initialValue}
+                      </li>
+                    </div>)
+                  })
+              }
+          </div>
+        </div>
       </div>
     );
   }
