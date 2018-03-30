@@ -14,15 +14,6 @@ body {
     padding: 10px 20px;
 }
 
-.github-link {
-    float: right;
-}
-
-.github-link svg {
-    height: 45px;
-    margin: 5px;
-}
-
 #root {
     max-width: 90vmin;
     margin: 1vmin auto;

@@ -48,12 +48,13 @@ export default class Board extends Component {
     this.state = {
       pieces: Chess.getDefaultLineup(),
       color: "white",
-      whitePeices: new Set(),
+      whitePieces: new Set(),
       blackPieces: new Set(),
       turn: true,
       set: false
     }
     this.handleMovePiece = this.handleMovePiece.bind(this)
+    this.handleDragStart = this.handleDragStart.bind(this)
   }
 
   componentDidMount(){
@@ -67,14 +68,14 @@ export default class Board extends Component {
             black.add(piece);
           }
         })
-        this.setState({ whitePeices: white, blackPieces: black, set: true })
+        this.setState({ whitePieces: white, blackPieces: black, set: true })
     }
   }
 
 
   handleMovePiece(piece, fromSquare, toSquare) {
-    let white = this.state.whitePeices;
-    let black = this.state.blackPieces
+    let white = this.state.whitePieces;
+    let black = this.state.blackPieces;
     const newPieces = this.state.pieces
       .map((curr, index) => {
         if (piece.index === index) {
@@ -87,8 +88,6 @@ export default class Board extends Component {
           }
           return `${piece.name}@${toSquare}`
         } else if (curr.indexOf(toSquare) === 2) {
-          // if (white.has(`${piece.name}@${fromSquare}`)){white.delete(`${piece.name}@${fromSquare}`)
-          // else if (black.has(`${piece.name}@${fromSquare}`)) black.delete(`${piece.name}@${fromSquare}`)
           if (white.has(curr)) white.delete(curr)
           if (black.has(curr)) black.delete(curr)
           return false // To be removed from the board
@@ -96,17 +95,25 @@ export default class Board extends Component {
         return curr
       })
       .filter(Boolean)
+    this.setState({pieces: newPieces, blackPieces: black, whitePieces: white, turn: !this.state.turn})
+  }
 
-    this.setState({pieces: newPieces, blackPieces: black, whitePeices: white})
+  handleDragStart(piece, fromSquare){
+    if (this.state.turn){
+      if (this.state.blackPieces.has(`${piece.name}@${fromSquare}`)) return false;
+    } else{
+      if (this.state.whitePieces.has(`${piece.name}@${fromSquare}`)) return false;
+    }
+    return true;
   }
 
   render() {
-    const {pieces, whitePeices, blackPieces} = this.state
+    const {pieces, whitePieces, blackPieces} = this.state
 
-    console.log(whitePeices, blackPieces)
+    console.log(whitePieces, blackPieces)
     return (
       <div className="demo">
-        <Chess pieces={pieces} onMovePiece={this.handleMovePiece} />
+        <Chess pieces={pieces} onMovePiece={this.handleMovePiece} onDragStart={this.handleDragStart} />
       </div>
     )
   }
