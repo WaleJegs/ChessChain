@@ -11,7 +11,7 @@ export default class Welcome extends Component {
     this.state = {
       rank: "",
       gamesPlayed: "",
-      gaming: false
+      gaming: false,
     };
   }
 

@@ -40,9 +40,8 @@ class App extends Component {
       leaders.unshift(curr)
     })
 
-    console.log("before", this.state.leaders)
     this.setState({ address: accounts[0], leaders });
-    console.log("after", this.state.leaders)
+
   }
 
   onSubmit = async event => {
@@ -102,7 +101,7 @@ class App extends Component {
   };
 
   render() {
-    console.log("leaders", this.state.leaders, this.state.leaders.length)
+
     return (
       <div>
         {!this.state.loggedIn ? (
