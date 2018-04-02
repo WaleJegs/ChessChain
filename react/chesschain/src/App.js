@@ -96,7 +96,7 @@ class App extends Component {
         id: user.V.R
       });
     } catch (e) {
-      this.setState({ message: e.message });
+      this.setState({ message: "Either your password or email is wrong. Try again..." });
     }
   };
 

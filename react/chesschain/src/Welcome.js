@@ -12,7 +12,10 @@ export default class Welcome extends Component {
       rank: "",
       gamesPlayed: "",
       gaming: false,
+      wager: false
     };
+
+    this.handleClick = this.handleClick.bind(this)
   }
 
   async componentDidMount() {
@@ -31,6 +34,41 @@ export default class Welcome extends Component {
     this.setState({ rank, wins, losses, gamesPlayed: +wins + +losses });
   }
 
+
+  handleClick = async event => {
+    event.preventDefault();
+    this.setState({ gaming: true })
+    const game = await firebase
+      .database()
+      .ref('/gamesPending')
+    console.log(game)
+    // let newGame;
+    //   if (!game.path.pieceNum_){
+    //     newGame = await firebase
+    //       .database()
+    //       .ref('/gamesPending')
+    //       .set({
+    //         player: this.props.id,
+    //         startingRank: this.state.rank,
+    //         wager: this.state.wager
+    //       })
+    //   } else {
+    //     await firebase
+    //       .database()
+    //       .ref('/gamesPending')
+    //       .remove()
+    //     await firebase
+    //       .database()
+    //       .ref('/games')
+    //       .set({
+    //         player1: game.player,
+    //         player2: this.props.id,
+    //         wager: this.state.wager
+    //       })
+    //   }
+
+  }
+
   render() {
     console.log(this.props)
     return (
@@ -47,9 +85,8 @@ export default class Welcome extends Component {
             <h3> Losses: {this.state.losses} </h3>
           </div>
           <div>
-            <button
-              onClick={() => this.setState({ gaming: true })}>
-                Start A Game
+            <button onClick={this.handleClick}>
+              Start A Game
             </button>
           </div>
         </div> : <div />
